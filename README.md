@@ -1,7 +1,6 @@
 # ttxrandr
 
-Auto extend monitor to the right of the main monitor with exactly resolution, work fine with 2 monitor (and not sure if you have 3
-monitor)
+Auto extend monitor to the right of the main monitor with exactly resolution, work fine with 2 monitors (and not sure if you have 3 monitors)
 
 ## Usage
 
