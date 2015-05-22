@@ -1,0 +1,3 @@
+#!/bin/bash
+
+ln -s $(pwd)/txrandr /usr/bin/txrandr

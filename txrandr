@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+_output=$(xrandr | grep ' connected' | awk 'NR==2 {print $1}')
+_resolution=$(xrandr | grep '+' | tail -n 1 | awk '{print $1}')
+
+if [ -z "$_output" ]; then
+	_xrandr=$(xrandr --auto)
+else
+	_xrandr=$(xrandr --output ${_output}\
+	--auto\
+	--right-of LVDS1\
+	--mode ${_resolution})
+fi
