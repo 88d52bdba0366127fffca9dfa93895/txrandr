@@ -1,13 +1,22 @@
 #!/usr/bin/env bash
 
-_output=$(xrandr | grep ' connected' | awk 'NR==2 {print $1}')
-_resolution=$(xrandr | grep '+' | tail -n 1 | awk '{print $1}')
-
+_output=$(xrandr | grep -v LVDS1 | grep ' connected' | awk '{print $1}')
 if [ -z "$_output" ]; then
-	_xrandr=$(xrandr --auto)
-else
-	_xrandr=$(xrandr --output ${_output}\
-	--auto\
-	--right-of LVDS1\
-	--mode ${_resolution})
+    _txrandr=$(xrandr --auto)
 fi
+
+_resolution=$(xrandr | grep $_output -A 2 | grep ' +' | awk '{print $1}')
+if [ -z "$_resolution" ]; then
+    _resolution=$(xrandr | grep $_output -A 2 | grep '*+' | awk '{print $1}')
+fi
+
+_current_reso=$(xrandr | grep $_output | awk '{print $3}' | \
+    sed s/+/\ /g | awk '{print $1}')
+if [ "$_resolution" == "$_current_reso" ]; then
+    exit 0
+fi
+
+_txrandr=$(xrandr --output $_output \
+	--auto \
+	--right-of LVDS1 \
+	--mode $_resolution)
